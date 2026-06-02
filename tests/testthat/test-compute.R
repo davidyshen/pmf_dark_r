@@ -18,7 +18,9 @@ test_that("compute_dark_diversity forwards arguments correctly", {
     include_latent,
     return_means,
     batch_size,
-    pred_batch_size
+    pred_batch_size,
+    categorical_cols,
+    ...
   ) {
     called_args <<- list(
       y = y,
@@ -30,7 +32,9 @@ test_that("compute_dark_diversity forwards arguments correctly", {
       include_latent = include_latent,
       return_means = return_means,
       batch_size = batch_size,
-      pred_batch_size = pred_batch_size
+      pred_batch_size = pred_batch_size,
+      categorical_cols = categorical_cols,
+      extra_arg = list(...)$extra_arg
     )
     return("test_result")
   }
@@ -96,7 +100,9 @@ test_that("compute_dark_diversity forwards arguments correctly", {
     include_latent = TRUE,
     return_means = TRUE,
     batch_size = 10,
-    pred_batch_size = NULL
+    pred_batch_size = NULL,
+    categorical_cols = c("col1", "col2"),
+    extra_arg = "extra_val"
   )
 
   # Check return value
@@ -111,6 +117,8 @@ test_that("compute_dark_diversity forwards arguments correctly", {
   expect_true(called_args$return_means)
   expect_equal(called_args$batch_size, 10L) # Should be cast to integer
   expect_null(called_args$pred_batch_size)
+  expect_equal(called_args$categorical_cols, c("col1", "col2"))
+  expect_equal(called_args$extra_arg, "extra_val")
 })
 
 test_that("use_python forwards arguments correctly to reticulate", {

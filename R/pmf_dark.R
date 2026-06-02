@@ -83,7 +83,7 @@ pmf_dark_module <- function(delay_load = TRUE) {
 #'
 #' Exposes the `compute_dark_diversity` function from the Python `pmf_dark` package.
 #'
-#' @param y Species presence-absence matrix (n_sites, n_species)
+#' @param y Species presence-absence/count matrix (n_sites, n_species)
 #' @param x Environmental predictor matrix (n_sites, n_env)
 #' @param model_type "linear" | "gaussian" | "bnn" (default: "gaussian")
 #' @param num_factors Number of latent factors for residual covariance (default: 1)
@@ -93,6 +93,8 @@ pmf_dark_module <- function(delay_load = TRUE) {
 #' @param return_means Return means or full posterior samples (default: TRUE)
 #' @param batch_size Mini-batch size for SVI training (default: NULL)
 #' @param pred_batch_size Site-chunk size for prediction output (default: NULL)
+#' @param categorical_cols Explicit list of column names in x to treat as categorical variables (default: NULL)
+#' @param ... Extra model/method specific arguments (kwargs)
 #'
 #' @return The result from the underlying Python call.
 #' @export
@@ -106,7 +108,9 @@ compute_dark_diversity <- function(
   include_latent = TRUE,
   return_means = TRUE,
   batch_size = NULL,
-  pred_batch_size = NULL
+  pred_batch_size = NULL,
+  categorical_cols = NULL,
+  ...
 ) {
   # 1. Retrieve the imported python module (which triggers dependency checks)
   mod <- pmf_dark_module()
@@ -126,7 +130,9 @@ compute_dark_diversity <- function(
       NULL
     } else {
       as.integer(pred_batch_size)
-    }
+    },
+    categorical_cols = categorical_cols,
+    ...
   )
 }
 

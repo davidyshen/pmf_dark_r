@@ -52,7 +52,8 @@ result <- compute_dark_diversity(
   method = "svi",           # "svi" | "mcmc"
   cuda = FALSE,             # GPU computation (SVI only)
   include_latent = TRUE,    # Include latent factors in predictions
-  return_means = TRUE       # Return means or full posterior samples
+  return_means = TRUE,      # Return means or full posterior samples
+  categorical_cols = NULL   # Explicit list of columns in x to treat as categorical variables
 )
 
 print(result)
