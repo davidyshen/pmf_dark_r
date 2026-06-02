@@ -112,3 +112,37 @@ test_that("compute_dark_diversity forwards arguments correctly", {
   expect_equal(called_args$batch_size, 10L) # Should be cast to integer
   expect_null(called_args$pred_batch_size)
 })
+
+test_that("use_python forwards arguments correctly to reticulate", {
+  ret_ns <- asNamespace("reticulate")
+  orig_use_python <- ret_ns$use_python
+
+  called_python <- NULL
+  called_required <- NULL
+
+  mock_use_python <- function(python, required) {
+    called_python <<- python
+    called_required <<- required
+    invisible(NULL)
+  }
+
+  if (bindingIsLocked("use_python", ret_ns)) {
+    unlockBinding("use_python", ret_ns)
+  }
+  assign("use_python", mock_use_python, envir = ret_ns)
+
+  on.exit({
+    if (bindingIsLocked("use_python", ret_ns)) {
+      unlockBinding("use_python", ret_ns)
+    }
+    assign("use_python", orig_use_python, envir = ret_ns)
+  })
+
+  use_python("/path/to/python", required = FALSE)
+  expect_equal(called_python, "/path/to/python")
+  expect_false(called_required)
+
+  use_python("/another/path")
+  expect_equal(called_python, "/another/path")
+  expect_true(called_required)
+})

@@ -129,3 +129,15 @@ compute_dark_diversity <- function(
     }
   )
 }
+
+#' Configure Python Version
+#'
+#' Specifies the path to the Python binary that should be used by `reticulate`.
+#'
+#' @param python Path to the Python executable.
+#' @param required Logical. Is this Python version required? (default: TRUE)
+#'
+#' @export
+use_python <- function(python, required = TRUE) {
+  reticulate::use_python(python, required = required)
+}
