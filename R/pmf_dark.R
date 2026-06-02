@@ -115,6 +115,11 @@ compute_dark_diversity <- function(
   # 1. Retrieve the imported python module (which triggers dependency checks)
   mod <- pmf_dark_module()
 
+  # Ensure categorical_cols is passed as a list (to avoid single-string split issues in Python)
+  if (!is.null(categorical_cols)) {
+    categorical_cols <- as.list(categorical_cols)
+  }
+
   # 2. Call the Python function, casting integer types as needed so they are correctly passed to python
   mod$compute_dark_diversity(
     y = y,

@@ -117,8 +117,16 @@ test_that("compute_dark_diversity forwards arguments correctly", {
   expect_true(called_args$return_means)
   expect_equal(called_args$batch_size, 10L) # Should be cast to integer
   expect_null(called_args$pred_batch_size)
-  expect_equal(called_args$categorical_cols, c("col1", "col2"))
+  expect_equal(called_args$categorical_cols, list("col1", "col2"))
   expect_equal(called_args$extra_arg, "extra_val")
+
+  # Call with a single string to verify list conversion (prevents character splitting in Python)
+  compute_dark_diversity(
+    y = matrix(1:4, 2, 2),
+    x = matrix(5:8, 2, 2),
+    categorical_cols = "landuse"
+  )
+  expect_equal(called_args$categorical_cols, list("landuse"))
 })
 
 test_that("use_python forwards arguments correctly to reticulate", {
