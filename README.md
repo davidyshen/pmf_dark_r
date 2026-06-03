@@ -26,6 +26,21 @@ You can install the development version of `pmfDarkR` from GitHub using `remotes
 remotes::install_github("davidyshen/pmf_dark_r")
 ```
 
+## Configuring Python Version
+
+If you need to specify a custom Python binary or virtual environment, use `reticulate::use_python()`. Because `pmfDarkR` eagerly imports the Python module when the package is loaded (to show CUDA device information), you must load `reticulate` and call `use_python()` **before** loading the `pmfDarkR` package with `library()`:
+
+```r
+library(reticulate)
+# Specify the Python executable path before loading pmfDarkR
+use_python("/path/to/python")
+
+# Load the package
+library(pmfDarkR)
+```
+
+Alternatively, you can set the `RETICULATE_PYTHON` environment variable in your system or in a `.Renviron` file before starting your R session.
+
 ## Usage
 
 Here is a quick example showing how to check dependencies and run the solver:
