@@ -6,7 +6,7 @@
 
 Before using `pmfDarkR`, ensure you have the following installed in your active Python environment:
 
-1. **Python 3.13 or greater**
+1. **Python 3.12 or greater**
 2. **`torch`** (PyTorch)
    - *Note: `torch` must be installed manually. You can choose either standard CPU `torch` or CUDA-enabled `torch` depending on your hardware and requirements.*
 3. **`pmf-dark`** Python package
