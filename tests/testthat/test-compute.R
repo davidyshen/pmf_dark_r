@@ -56,7 +56,7 @@ test_that("compute_dark_diversity forwards arguments correctly", {
     assign("py_available", function(...) TRUE, envir = ret_ns)
     assign(
       "py_version",
-      function(...) numeric_version("3.13.1"),
+      function(...) numeric_version("3.12.1"),
       envir = ret_ns
     )
     assign("py_module_available", function(module) TRUE, envir = ret_ns)
