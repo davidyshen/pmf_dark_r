@@ -1,6 +1,6 @@
 # pmfDarkR
 
-`pmfDarkR` is an R wrapper package for the [`pmf-dark`](https://github.com/davidyshen/pmf-dark) Python package, which uses PyTorch and Pyro to estimate dark diversity.
+`pmfDarkR` is an R wrapper package for the [`pmf_dark`](https://github.com/davidyshen/pmf_dark) Python package, which uses PyTorch and Pyro to estimate dark diversity.
 
 ## Prerequisites
 
@@ -8,16 +8,20 @@ Before using `pmfDarkR`, ensure you have the following installed in your active 
 
 1. **Python 3.12 or greater**
 2. **`torch`** (PyTorch)
-   - *Note: `torch` must be installed manually. You can choose either standard CPU `torch` or CUDA-enabled `torch` depending on your hardware and requirements.*
-3. **`pmf-dark`** Python package
+   - *Note: CUDA `torch` must be installed manually. You can choose either standard CPU `torch` or CUDA-enabled `torch` depending on your hardware and requirements.*
+3. **`pmf_dark`** Python package
+
+Use CUDA enabled `torch` if you have a compatible NVIDIA GPU and want to leverage GPU acceleration for faster computations using SVI. If you do not have a compatible GPU or prefer to run on CPU, the standard `torch` package should be installed automatically.
+
+For more details on installing these dependencies, please refer to the [`pmf_dark` GitHub repository](https://github.com/davidyshen/pmf_dark).
 
 ## Installation
 
-You can install the development version of `pmfDarkR` from GitHub using `devtools`:
+You can install the development version of `pmfDarkR` from GitHub using `remotes`:
 
 ```r
-# If devtools is not installed:
-# install.packages("devtools")
+# If remotes is not installed:
+# install.packages("remotes")
 
 remotes::install_github("davidyshen/pmf_dark_r")
 ```
