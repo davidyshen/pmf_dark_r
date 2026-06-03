@@ -19,7 +19,7 @@ You can install the development version of `pmfDarkR` from GitHub using `devtool
 # If devtools is not installed:
 # install.packages("devtools")
 
-devtools::install_github("davidyshen/pmf_dark_r")
+remotes::install_github("davidyshen/pmf_dark_r")
 ```
 
 ## Usage
