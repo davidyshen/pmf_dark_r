@@ -7,7 +7,7 @@
 pmf_dark_available()
 }
 \value{
-`TRUE` if Python >= 3.13 is available, and both `torch` and `pmf_dark`
+`TRUE` if Python >= 3.12 is available, and both `torch` and `pmf_dark`
   are installed; `FALSE` otherwise.
 }
 \description{

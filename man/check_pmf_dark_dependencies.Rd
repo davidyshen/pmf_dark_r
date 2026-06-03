@@ -11,7 +11,7 @@ Invisible `TRUE` if all dependencies are met, otherwise throws an error.
 }
 \description{
 Verifies that the required Python environment and dependencies are available:
-1. Python version 3.13 or greater.
+1. Python version 3.12 or greater.
 2. Python package `torch`.
 3. Python package `pmf_dark`.
 }

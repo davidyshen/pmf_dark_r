@@ -1,7 +1,7 @@
 #' Check PMF-Dark Python Dependencies
 #'
 #' Verifies that the required Python environment and dependencies are available:
-#' 1. Python version 3.13 or greater.
+#' 1. Python version 3.12 or greater.
 #' 2. Python package `torch`.
 #' 3. Python package `pmf_dark`.
 #'
@@ -15,11 +15,11 @@ check_pmf_dark_dependencies <- function() {
     )
   }
 
-  # 2. Check Python version >= 3.13
+  # 2. Check Python version >= 3.12
   py_ver <- reticulate::py_version()
-  if (py_ver < "3.13") {
+  if (py_ver < "3.12") {
     stop(sprintf(
-      "Python 3.13 or greater is required. Active Python version is %s.",
+      "Python 3.12 or greater is required. Active Python version is %s.",
       as.character(py_ver)
     ))
   }
@@ -43,7 +43,7 @@ check_pmf_dark_dependencies <- function() {
 
 #' Check if Python module pmf_dark and its dependencies are available
 #'
-#' @return `TRUE` if Python >= 3.13 is available, and both `torch` and `pmf_dark`
+#' @return `TRUE` if Python >= 3.12 is available, and both `torch` and `pmf_dark`
 #'   are installed; `FALSE` otherwise.
 #' @export
 pmf_dark_available <- function() {
@@ -151,4 +151,14 @@ compute_dark_diversity <- function(
 #' @export
 use_python <- function(python, required = TRUE) {
   reticulate::use_python(python, required = required)
+}
+
+.onLoad <- function(libname, pkgname) {
+  if (pmf_dark_available()) {
+    tryCatch({
+      reticulate::import("pmf_dark", delay_load = FALSE)
+    }, error = function(e) {
+      # Ignore error to avoid failing package load if there's an import issue
+    })
+  }
 }

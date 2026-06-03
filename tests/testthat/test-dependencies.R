@@ -8,7 +8,7 @@ test_that("check_pmf_dark_dependencies handles various scenarios correctly", {
 
   # Helper to mock reticulate functions
   mock_reticulate <- function(
-    ver = "3.13.0",
+    ver = "3.12.0",
     torch_avail = TRUE,
     pmf_avail = TRUE
   ) {
@@ -67,25 +67,25 @@ test_that("check_pmf_dark_dependencies handles various scenarios correctly", {
   on.exit(restore_reticulate())
 
   # 1. Test case: Python version is too old
-  mock_reticulate(ver = "3.12.0", torch_avail = TRUE, pmf_avail = TRUE)
+  mock_reticulate(ver = "3.11.0", torch_avail = TRUE, pmf_avail = TRUE)
   expect_error(
     check_pmf_dark_dependencies(),
-    "Python 3.13 or greater is required"
+    "Python 3.12 or greater is required"
   )
   expect_false(pmf_dark_available())
   expect_error(
     pmf_dark_module(delay_load = FALSE),
-    "Python 3.13 or greater is required"
+    "Python 3.12 or greater is required"
   )
 
-  # 2. Test case: Python version >= 3.13, but torch is missing
-  mock_reticulate(ver = "3.13.1", torch_avail = FALSE, pmf_avail = TRUE)
+  # 2. Test case: Python version >= 3.12, but torch is missing
+  mock_reticulate(ver = "3.12.1", torch_avail = FALSE, pmf_avail = TRUE)
   expect_error(check_pmf_dark_dependencies(), "torch.*is not installed")
   expect_false(pmf_dark_available())
   expect_error(pmf_dark_module(delay_load = FALSE), "torch.*is not installed")
 
-  # 3. Test case: Python version >= 3.13, torch present, but pmf_dark is missing
-  mock_reticulate(ver = "3.13.1", torch_avail = TRUE, pmf_avail = FALSE)
+  # 3. Test case: Python version >= 3.12, torch present, but pmf_dark is missing
+  mock_reticulate(ver = "3.12.1", torch_avail = TRUE, pmf_avail = FALSE)
   expect_error(check_pmf_dark_dependencies(), "pmf_dark.*is not installed")
   expect_false(pmf_dark_available())
   expect_error(
@@ -93,8 +93,8 @@ test_that("check_pmf_dark_dependencies handles various scenarios correctly", {
     "pmf_dark.*is not installed"
   )
 
-  # 4. Test case: All dependencies met (Python >= 3.13, torch and pmf_dark present)
-  mock_reticulate(ver = "3.13.1", torch_avail = TRUE, pmf_avail = TRUE)
+  # 4. Test case: All dependencies met (Python >= 3.12, torch and pmf_dark present)
+  mock_reticulate(ver = "3.12.1", torch_avail = TRUE, pmf_avail = TRUE)
   expect_silent(check_pmf_dark_dependencies())
   expect_true(pmf_dark_available())
 
