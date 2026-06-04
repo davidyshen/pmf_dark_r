@@ -1,8 +1,8 @@
 Package: pmfDarkR
 Type: Package
 Title: R Wrapper for the pmf_dark Python Package
-Version: 0.0.0.9000
-Authors@R: person(given = "David", family = "Shen", role = c("aut", "cre"), email = "david@example.com")
+Version: 0.1.0
+Authors@R: person(given = "David", family = "Shen", role = c("aut", "cre"), email = "contact@davidyshen.com")
 Description: Provides a minimal R interface to the Python package 'pmf_dark' using reticulate.
 License: MIT + file LICENSE
 Encoding: UTF-8
