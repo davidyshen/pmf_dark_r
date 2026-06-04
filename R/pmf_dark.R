@@ -273,6 +273,13 @@ pmf_dark <- function(model, pred_batch_size = NULL, return_means = TRUE) {
 }
 
 .onLoad <- function(libname, pkgname) {
+  # Skip python initialization during installation and build/check phases to prevent DLL lockups
+  if (
+    nzchar(Sys.getenv("R_INSTALL_PKG")) || nzchar(Sys.getenv("R_PACKAGE_NAME"))
+  ) {
+    return()
+  }
+
   if (pmf_dark_available()) {
     tryCatch(
       {
