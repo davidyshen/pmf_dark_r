@@ -2,7 +2,7 @@
 % Please edit documentation in R/pmf_dark.R
 \name{compute_dark_diversity}
 \alias{compute_dark_diversity}
-\title{Compute Dark Diversity}
+\title{Compute Dark Diversity (Functional API)}
 \usage{
 compute_dark_diversity(
   y,
@@ -14,11 +14,13 @@ compute_dark_diversity(
   include_latent = TRUE,
   return_means = TRUE,
   batch_size = NULL,
-  pred_batch_size = NULL
+  pred_batch_size = NULL,
+  categorical_cols = NULL,
+  ...
 )
 }
 \arguments{
-\item{y}{Species presence-absence matrix (n_sites, n_species)}
+\item{y}{Species presence-absence/count matrix (n_sites, n_species)}
 
 \item{x}{Environmental predictor matrix (n_sites, n_env)}
 
@@ -37,10 +39,15 @@ compute_dark_diversity(
 \item{batch_size}{Mini-batch size for SVI training (default: NULL)}
 
 \item{pred_batch_size}{Site-chunk size for prediction output (default: NULL)}
+
+\item{categorical_cols}{Explicit list of column names in x to treat as categorical variables (default: NULL)}
+
+\item{...}{Extra model/method specific arguments (kwargs)}
 }
 \value{
 The result from the underlying Python call.
 }
 \description{
 Exposes the `compute_dark_diversity` function from the Python `pmf_dark` package.
+Kept for backward compatibility.
 }

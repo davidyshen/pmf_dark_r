@@ -41,39 +41,51 @@ library(pmfDarkR)
 
 Alternatively, you can set the `RETICULATE_PYTHON` environment variable in your system or in a `.Renviron` file before starting your R session.
 
-## Usage
+## Usage (Object-Oriented API)
 
-Here is a quick example showing how to check dependencies and run the solver:
+The recommended way to use `pmfDarkR` is via the object-oriented API, which fits the model once and allows you to easily query different predictions (current distribution, potential species pool, and dark diversity) using R's native pipe operator (`|>`):
 
 ```r
 library(pmfDarkR)
 
-# 1. Check if all Python dependencies are met (Python >= 3.12, torch, pmf_dark)
-if (pmf_dark_available()) {
-  message("Ready to run PMF-Dark!")
-} else {
-  # This throws a clear error indicating which dependency is missing
-  check_pmf_dark_dependencies()
-}
-
-# 2. Prepare presence-absence matrix (Y) and environmental predictors (X)
+# 1. Prepare presence-absence matrix (Y) and environmental predictors (X)
 # Y: n_sites x n_species matrix
 # X: n_sites x n_env matrix
 y <- matrix(c(1, 0, 1, 1, 0, 1), nrow = 2, ncol = 3)
 x <- matrix(c(0.5, -1.2, 1.4, 0.9), nrow = 2, ncol = 2)
 
-# 3. Compute dark diversity using the wrapper function
+# 2. Fit the model (instantiates PMFDark and immediately fits it)
+model <- pmf_fit(
+  y = y,
+  x = x,
+  model_type = "gaussian",  # Ecological response model: "linear" | "gaussian" | "bnn"
+  num_factors = 1,          # Number of latent factors
+  method = "svi",           # Inference method: "svi" | "mcmc"
+  num_iterations = 2500,     # Fit hyperparameter passed via ...
+  categorical_cols = NULL   # Explicitly treat columns in x as categorical
+)
+
+# 3. Generate predictions using pipe chaining
+p_dist <- model |> pmf_distribution() # Current species distribution (with latent factors)
+p_pool <- model |> pmf_pool()         # Potential species pool (counterfactual / env only)
+p_dark <- model |> pmf_dark()         # Dark diversity (pool prediction where species is not observed)
+
+print(p_dark)
+```
+
+### Backward Compatibility (Functional API)
+
+For backward compatibility, the functional API `compute_dark_diversity()` is still provided:
+
+```r
 result <- compute_dark_diversity(
   y = y,
   x = x,
-  model_type = "gaussian",  # "linear" | "gaussian" | "bnn"
-  num_factors = 1,          # Number of latent factors for residual covariance
-  method = "svi",           # "svi" | "mcmc"
-  cuda = FALSE,             # GPU computation (SVI only)
-  include_latent = TRUE,    # Include latent factors in predictions
-  return_means = TRUE,      # Return means or full posterior samples
-  categorical_cols = NULL   # Explicit list of columns in x to treat as categorical variables
+  model_type = "gaussian",
+  num_factors = 1,
+  method = "svi",
+  cuda = FALSE,
+  include_latent = TRUE,
+  return_means = TRUE
 )
-
-print(result)
 ```
