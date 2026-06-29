@@ -4,7 +4,7 @@
 \alias{pmf_distribution}
 \title{Predict current species distribution}
 \usage{
-pmf_distribution(model, pred_batch_size = NULL, return_means = TRUE)
+pmf_distribution(model, pred_batch_size = NULL, return_means = TRUE, ...)
 }
 \arguments{
 \item{model}{A fitted `PMFDark` model object returned by `pmf_fit()`.}
@@ -12,6 +12,8 @@ pmf_distribution(model, pred_batch_size = NULL, return_means = TRUE)
 \item{pred_batch_size}{Chunk size to process sites during prediction (default: NULL).}
 
 \item{return_means}{Returns a data frame of posterior means if TRUE, or a raw array of posterior samples if FALSE.}
+
+\item{...}{Additional arguments passed to the underlying Python method.}
 }
 \value{
 A data frame of posterior means (if TRUE) or a NumPy array of raw posterior samples (if FALSE).

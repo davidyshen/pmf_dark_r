@@ -23,26 +23,29 @@ test_that("pmf_fit, pmf_distribution, pmf_pool, and pmf_dark work correctly", {
     invisible(NULL)
   }
 
-  mock_distribution <- function(pred_batch_size, return_means) {
+  mock_distribution <- function(pred_batch_size, return_means, ...) {
     distribution_args <<- list(
       pred_batch_size = pred_batch_size,
-      return_means = return_means
+      return_means = return_means,
+      extra = list(...)
     )
     return("distribution_result")
   }
 
-  mock_pool <- function(pred_batch_size, return_means) {
+  mock_pool <- function(pred_batch_size, return_means, ...) {
     pool_args <<- list(
       pred_batch_size = pred_batch_size,
-      return_means = return_means
+      return_means = return_means,
+      extra = list(...)
     )
     return("pool_result")
   }
 
-  mock_dark <- function(pred_batch_size, return_means) {
+  mock_dark <- function(pred_batch_size, return_means, ...) {
     dark_args <<- list(
       pred_batch_size = pred_batch_size,
-      return_means = return_means
+      return_means = return_means,
+      extra = list(...)
     )
     return("dark_result")
   }
@@ -148,21 +151,25 @@ test_that("pmf_fit, pmf_distribution, pmf_pool, and pmf_dark work correctly", {
   # 2. Test predictions and pipe chaining
   dist_res <- model |>
     pmf_distribution(pred_batch_size = 10, return_means = TRUE)
-  pool_res <- model |> pmf_pool(pred_batch_size = NULL, return_means = FALSE)
-  dark_res <- model |> pmf_dark()
+  pool_res <- model |>
+    pmf_pool(pred_batch_size = NULL, return_means = FALSE, rescale = "nsi")
+  dark_res <- model |> pmf_dark(rescale = "normalise")
 
   # Check distribution predictions
   expect_equal(dist_res, "distribution_result")
   expect_equal(distribution_args$pred_batch_size, 10L)
   expect_true(distribution_args$return_means)
+  expect_equal(distribution_args$extra, list())
 
   # Check pool predictions
   expect_equal(pool_res, "pool_result")
   expect_null(pool_args$pred_batch_size)
   expect_false(pool_args$return_means)
+  expect_equal(pool_args$extra$rescale, "nsi")
 
   # Check dark predictions
   expect_equal(dark_res, "dark_result")
   expect_null(dark_args$pred_batch_size)
   expect_true(dark_args$return_means)
+  expect_equal(dark_args$extra$rescale, "normalise")
 })
