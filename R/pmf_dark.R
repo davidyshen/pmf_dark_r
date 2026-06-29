@@ -212,13 +212,15 @@ pmf_fit <- function(
 #' @param model A fitted `PMFDark` model object returned by `pmf_fit()`.
 #' @param pred_batch_size Chunk size to process sites during prediction (default: NULL).
 #' @param return_means Returns a data frame of posterior means if TRUE, or a raw array of posterior samples if FALSE.
+#' @param ... Additional arguments passed to the underlying Python method.
 #'
 #' @return A data frame of posterior means (if TRUE) or a NumPy array of raw posterior samples (if FALSE).
 #' @export
 pmf_distribution <- function(
   model,
   pred_batch_size = NULL,
-  return_means = TRUE
+  return_means = TRUE,
+  ...
 ) {
   model$distribution(
     pred_batch_size = if (is.null(pred_batch_size)) {
@@ -226,7 +228,8 @@ pmf_distribution <- function(
     } else {
       as.integer(pred_batch_size)
     },
-    return_means = return_means
+    return_means = return_means,
+    ...
   )
 }
 
@@ -237,17 +240,19 @@ pmf_distribution <- function(
 #' @param model A fitted `PMFDark` model object returned by `pmf_fit()`.
 #' @param pred_batch_size Chunk size to process sites during prediction (default: NULL).
 #' @param return_means Returns a data frame of posterior means if TRUE, or a raw array of posterior samples if FALSE.
+#' @param ... Additional arguments passed to the underlying Python method.
 #'
 #' @return A data frame of posterior means (if TRUE) or a NumPy array of raw posterior samples (if FALSE).
 #' @export
-pmf_pool <- function(model, pred_batch_size = NULL, return_means = TRUE) {
+pmf_pool <- function(model, pred_batch_size = NULL, return_means = TRUE, ...) {
   model$pool(
     pred_batch_size = if (is.null(pred_batch_size)) {
       NULL
     } else {
       as.integer(pred_batch_size)
     },
-    return_means = return_means
+    return_means = return_means,
+    ...
   )
 }
 
@@ -258,17 +263,19 @@ pmf_pool <- function(model, pred_batch_size = NULL, return_means = TRUE) {
 #' @param model A fitted `PMFDark` model object returned by `pmf_fit()`.
 #' @param pred_batch_size Chunk size to process sites during prediction (default: NULL).
 #' @param return_means Returns a data frame of posterior means if TRUE, or a raw array of posterior samples if FALSE.
+#' @param ... Additional arguments passed to the underlying Python method.
 #'
 #' @return A data frame of posterior means (if TRUE) or a NumPy array of raw posterior samples (if FALSE).
 #' @export
-pmf_dark <- function(model, pred_batch_size = NULL, return_means = TRUE) {
+pmf_dark <- function(model, pred_batch_size = NULL, return_means = TRUE, ...) {
   model$dark(
     pred_batch_size = if (is.null(pred_batch_size)) {
       NULL
     } else {
       as.integer(pred_batch_size)
     },
-    return_means = return_means
+    return_means = return_means,
+    ...
   )
 }
 
